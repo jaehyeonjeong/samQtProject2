@@ -85,6 +85,13 @@ TCPClient::TCPClient(QWidget *parent)
     connect(clientSocket, SIGNAL(readyRead( )), SLOT(receiveData( )));
     connect(clientSocket, SIGNAL(disconnected( )), SLOT(disconnect( )));
     setWindowTitle(tr("Chat Client"));
+
+    /*client data 보내기*/
+    connect(connectButton, SIGNAL(clicked()), this, SIGNAL(ClientSignal(QString)));
+    connect(serverName, SIGNAL(textChanged(QString)), this,
+            SIGNAL(clientName(QString)));
+//    connect(serverName, SIGNAL(textChanged(QString)),
+//            this, SIGNAL(ClientSignal(QString));
 }
 
 TCPClient::~TCPClient()
@@ -92,6 +99,10 @@ TCPClient::~TCPClient()
      clientSocket->close( );
 }
 
+void TCPClient::CReceiveData(QString str)
+{
+    serverName->setText(str);
+}
 
 void TCPClient::closeEvent(QCloseEvent*)
 {
@@ -149,6 +160,8 @@ void TCPClient::sendData(  )
         out << data.type;
         out.writeRawData(data.data, 1020);
         clientSocket->write(sendArray);
+
+
     }
 }
 
@@ -163,6 +176,9 @@ void TCPClient::connectToServer( )
     out << data.type;
     out.writeRawData(data.data, 1020);
     clientSocket->write(sendArray);
+
+    /*send button을 누를시 보내지는 시그널*/
+    emit ClientSignal(serverName->text().toStdString().data());
 }
 
 void TCPClient::disconnect( )

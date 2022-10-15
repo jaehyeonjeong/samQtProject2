@@ -93,7 +93,14 @@ MainWindow::MainWindow(QWidget *parent)
     //    });
     //    connect(chettingapp->clientsocket, SIGNAL(readyRead()), SLOT(rechoData()));
 
+    connect(clientmanager, SIGNAL(ClientAdded(QString)),
+            tcpclient, SLOT(CReceiveData(QString)));
 
+    connect(tcpclient, SIGNAL(ClientSignal(QString)),
+            chettingapp, SLOT(receiveClient(QString)));
+
+    connect(tcpclient, SIGNAL(ClientSignal(QString)),
+            chettingapp, SLOT(receiveClientName(QString)));
 }
 
 MainWindow::~MainWindow()

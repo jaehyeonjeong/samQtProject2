@@ -21,11 +21,19 @@ public:
     explicit TCPClient(QWidget *parent = nullptr);
     ~TCPClient();
 
+signals:
+    void ClientSignal(QString);
+    void clientName(QString);
+
 private slots:
     void connectToServer( );
     void receiveData( );			// 서버에서 데이터가 올 때
     void sendData( );			// 서버로 데이터를 보낼 때
     void disconnect( );
+
+    /*client Name Receive slot*/
+    void CReceiveData(QString str);
+
 
 private:
     void closeEvent(QCloseEvent*) override;

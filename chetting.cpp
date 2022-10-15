@@ -3,6 +3,7 @@
 #include <QtNetwork>
 #include <QMessageBox>
 #include <QDataStream>
+#include <QTreeWidgetItem>
 
 #define BLOCK_SIZE 1024
 
@@ -55,13 +56,18 @@ Chetting::Chetting(QWidget *parent) :
                     connectToServer();      //서버 커넥트
     });
 
+    /*connect 버튼을 누를시 server이름이 받아짐*/
+    connect(ui->connectButton, SIGNAL(clicked()),
+            this, SLOT(receiveClientName(QString)));
+
+
     //서버로 보낼 메시지를 위한 위젯들
     connect(ui->inputEdit, SIGNAL(returnPressed()), SLOT(sendData()));
     connect(ui->inputEdit, SIGNAL(returnPressed()),
             ui->inputEdit, SLOT(clear()));
 
     connect(ui->sendButton, SIGNAL(clicked()), SLOT(sendData()));
-    connect(ui->sendButton, SIGNAL(clicked()), SLOT(clear()));
+    connect(ui->sendButton, SIGNAL(clicked()), ui->inputEdit, SLOT(clear()));
 
 
     connect(ui->cacelButton,
@@ -73,6 +79,8 @@ Chetting::Chetting(QWidget *parent) :
             [=]{qDebug() << clientSocket->errorString();});
     connect(clientSocket, SIGNAL(readyRead()), SLOT(receiveData()));
     connect(clientSocket, SIGNAL(disconnected()), SLOT(disconnect()));
+
+    ui->IPNameEdit->setText("No names");
 }
 
 /*tcp server*/
@@ -86,6 +94,19 @@ void Chetting::echoData()
     }
     ui->serverstatus->setText(QString(bytearray));
 
+}
+
+void Chetting::receiveClientName(QString name)
+{
+    QList<QString> list;
+    name = ui->IPNameEdit->text();
+    list.insert(0, name);
+    ui->listWidget->addItems(list);
+}
+
+void Chetting::receiveClient(QString name)
+{
+    ui->IPNameEdit->setText(name);
 }
 
 void Chetting::clientConnect()
@@ -186,6 +207,11 @@ void Chetting::disconnect( )
                           tr("Disconnect from Server"));
 //    close( );
 }
+
+//void Chetting::CReceiveData(QString str)
+//{
+//    ui->IPNameEdit->setText(str);
+//}
 
 Chetting::~Chetting()
 {

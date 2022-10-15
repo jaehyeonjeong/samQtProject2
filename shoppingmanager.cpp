@@ -48,7 +48,7 @@ ShoppingManager::ShoppingManager(QWidget *parent) :
     }
     file.close( );
 
-    ui->SDateLineEdit->setPlaceholderText("press Enter");
+    ui->SDateLineEdit->setPlaceholderText("press yyyy-mm-dd or Enter");
 
 }
 
