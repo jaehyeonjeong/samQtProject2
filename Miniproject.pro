@@ -19,6 +19,7 @@ SOURCES += \
     shopping.cpp \
     shoppingmanager.cpp \
     tcpclient.cpp \
+    tcpdata.cpp \
     tcpserver.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     shopping.h \
     shoppingmanager.h \
     tcpclient.h \
+    tcpdata.h \
     tcpserver.h
 
 FORMS += \

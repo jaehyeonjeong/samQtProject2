@@ -36,7 +36,18 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget"/>
+        <widget class="QTreeWidget" name="treeWidget">
+         <column>
+          <property name="text">
+           <string>tcpdataid</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>clientName</string>
+          </property>
+         </column>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">

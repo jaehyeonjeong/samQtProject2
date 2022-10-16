@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QDataStream>
 
+#include "tcpdata.h"
+
 class QTextEdit;
 class QLineEdit;
 class QTcpSocket;
@@ -41,13 +43,15 @@ private slots:
     void sendData( );			// 서버로 데이터를 보낼 때
     void disconnect( );
 
-    void receiveClientName(QString name);
+    void receiveTcpClientName(QString name);
 
     void on_reduceclient_clicked();
 
     void receiveClient(QString);
 
-    void on_listWidget_itemClicked(QListWidgetItem *item);
+    //void on_listWidget_itemClicked(QListWidgetItem *item);
+
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     void closeEvent(QCloseEvent*) override;
@@ -59,6 +63,9 @@ private:
     /*tcp client*/
     QTcpSocket* clientSocket;
     //QList<QTcpSocket*> clientList;
+
+    int makeID();
+    QMap<int, tcpdata*>tcpdataList; //tcpdata.h에 있는 data리스트 설정
 };
 
 #endif // CHETTING_H

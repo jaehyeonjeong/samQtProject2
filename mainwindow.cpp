@@ -100,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
             chettingapp, SLOT(receiveClient(QString)));
 
     connect(tcpclient, SIGNAL(ButtonSignal(QString)),
-            chettingapp, SLOT(receiveClientName(QString)));
+            chettingapp, SLOT(receiveClientName(QString)));/*에러*/
 }
 
 MainWindow::~MainWindow()

@@ -1,5 +1,7 @@
 #include "chetting.h"
 #include "ui_chetting.h"
+#include "tcpclient.h"
+
 #include <QtNetwork>
 #include <QMessageBox>
 #include <QDataStream>
@@ -58,7 +60,7 @@ Chetting::Chetting(QWidget *parent) :
 
     /*connect 버튼을 누를시 server이름이 받아짐*/
     connect(ui->connectButton, SIGNAL(clicked()),
-            this, SLOT(receiveClientName(QString)));
+            this, SLOT(receiveClientName(QString)));/*에러*/
 
 
     //서버로 보낼 메시지를 위한 위젯들
@@ -96,12 +98,32 @@ void Chetting::echoData()
 
 }
 
-void Chetting::receiveClientName(QString name)
+/*id 인트형으로 자동 할당*/
+int Chetting::makeID()
 {
-    QList<QString> list;
+    if(tcpdataList.size() == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        auto id = tcpdataList.lastKey();
+        return ++id;
+    }
+}
+
+void Chetting::receiveTcpClientName(QString name)/*입력과 같은예시*/
+{
+    /*버튼을 누를시 받을 슬롯*/
+    int id = makeID();
     name = ui->IPNameEdit->text();
-    list.insert(0, name);
-    ui->listWidget->addItems(list);
+    if(name.length())
+    {
+        tcpdata* tcp = new tcpdata(id, name);
+        tcpdataList.insert(id, tcp);
+        ui->treeWidget->addTopLevelItem(tcp);
+    }
+
 }
 
 void Chetting::receiveClient(QString name)
@@ -224,22 +246,41 @@ Chetting::~Chetting()
 /*list->treeWidget으로 변경 계획*/
 void Chetting::on_reduceclient_clicked()
 {
-    QModelIndex index;//= ui->IPNameEdit->text().toStdString().data();
-    QString ipname;
-    ipname = ui->IPNameEdit->text().toStdString().data();
-    QListWidgetItem* item = ui->listWidget->currentItem();
+//    QModelIndex index;//= ui->IPNameEdit->text().toStdString().data();
+//    QString ipname;
+//    ipname = ui->IPNameEdit->text().toStdString().data();
+//    QListWidgetItem* item = ui->listWidget->currentItem();
+//    if(item != nullptr)
+//    {
+//        ui->listWidget->indexFromItem
+//                (ui->listWidget->itemFromIndex(index));
+//        ui->listWidget->update();
+//    }
+/*리스트로는 제거가 되지 않아서 TreeWidget으로 데이터를 조작*/
+    /*reduce button을 누르면 해당 이름이 삭제*/
+    QTreeWidgetItem* item = ui->treeWidget->currentItem();
     if(item != nullptr)
     {
-        ui->listWidget->indexFromItem
-                (ui->listWidget->itemFromIndex(index));
-        ui->listWidget->update();
+        tcpdataList.remove(item->text(0).toInt());
+        ui->treeWidget->takeTopLevelItem
+                (ui->treeWidget->indexOfTopLevelItem(item));
+        ui->treeWidget->update();
     }
 
+    /*강제 추방기능은 여기서 기능을 구현하면 될 것 같음*/
 }
 
 
-void Chetting::on_listWidget_itemClicked(QListWidgetItem *item)
+//void Chetting::on_listWidget_itemClicked(QListWidgetItem *item)
+//{
+//    ui->reduceEdit->setText(item->text());
+//}
+
+
+void Chetting::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
-    ui->reduceEdit->setText(item->text());
+    Q_UNUSED(column);
+    ui->reduceEdit->setText(item->text(0));
+    /*제거 에디트 위젯에서 해당 되는것은 이름뿐이라 일단 name만 넣음*/
 }
 

@@ -11,6 +11,7 @@
 #include <QMessageBox>
 
 #include "tcpclient.h"
+#include "tcpdata.h"
 
 #define BLOCK_SIZE 1024
 
@@ -178,7 +179,8 @@ void TCPClient::connectToServer( )
     clientSocket->write(sendArray);
 
     /*send button을 누를시 보내지는 시그널*/
-    emit ButtonSignal(serverName->text().toStdString().data());
+    //tcpdata tcp;
+    emit ButtonSignal(serverName->text());
 }
 
 void TCPClient::disconnect( )
