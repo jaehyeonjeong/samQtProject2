@@ -219,3 +219,27 @@ Chetting::~Chetting()
     delete tcpServer;
     delete clientSocket;
 }
+
+/*reduce 버튼을 누를 시 List데이터가 없어지면서 해당 servername도 나가지는 방법 고안*/
+/*list->treeWidget으로 변경 계획*/
+void Chetting::on_reduceclient_clicked()
+{
+    QModelIndex index;//= ui->IPNameEdit->text().toStdString().data();
+    QString ipname;
+    ipname = ui->IPNameEdit->text().toStdString().data();
+    QListWidgetItem* item = ui->listWidget->currentItem();
+    if(item != nullptr)
+    {
+        ui->listWidget->indexFromItem
+                (ui->listWidget->itemFromIndex(index));
+        ui->listWidget->update();
+    }
+
+}
+
+
+void Chetting::on_listWidget_itemClicked(QListWidgetItem *item)
+{
+    ui->reduceEdit->setText(item->text());
+}
+

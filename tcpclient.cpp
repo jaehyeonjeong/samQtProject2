@@ -87,7 +87,7 @@ TCPClient::TCPClient(QWidget *parent)
     setWindowTitle(tr("Chat Client"));
 
     /*client data 보내기*/
-    connect(connectButton, SIGNAL(clicked()), this, SIGNAL(ClientSignal(QString)));
+    connect(connectButton, SIGNAL(clicked()), this, SIGNAL(ButtonSignal(QString)));
     connect(serverName, SIGNAL(textChanged(QString)), this,
             SIGNAL(clientName(QString)));
 //    connect(serverName, SIGNAL(textChanged(QString)),
@@ -178,7 +178,7 @@ void TCPClient::connectToServer( )
     clientSocket->write(sendArray);
 
     /*send button을 누를시 보내지는 시그널*/
-    emit ClientSignal(serverName->text().toStdString().data());
+    emit ButtonSignal(serverName->text().toStdString().data());
 }
 
 void TCPClient::disconnect( )

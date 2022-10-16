@@ -9,6 +9,7 @@ class QLineEdit;
 class QTcpSocket;
 class QTcpServer;
 class QTreeWidgetItem;
+class QListWidgetItem;
 
 typedef struct{
     int type;
@@ -42,7 +43,11 @@ private slots:
 
     void receiveClientName(QString name);
 
+    void on_reduceclient_clicked();
+
     void receiveClient(QString);
+
+    void on_listWidget_itemClicked(QListWidgetItem *item);
 
 private:
     void closeEvent(QCloseEvent*) override;

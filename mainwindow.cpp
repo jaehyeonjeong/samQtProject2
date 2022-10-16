@@ -96,10 +96,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(clientmanager, SIGNAL(ClientAdded(QString)),
             tcpclient, SLOT(CReceiveData(QString)));
 
-    connect(tcpclient, SIGNAL(ClientSignal(QString)),
+    connect(tcpclient, SIGNAL(ButtonSignal(QString)),
             chettingapp, SLOT(receiveClient(QString)));
 
-    connect(tcpclient, SIGNAL(ClientSignal(QString)),
+    connect(tcpclient, SIGNAL(ButtonSignal(QString)),
             chettingapp, SLOT(receiveClientName(QString)));
 }
 

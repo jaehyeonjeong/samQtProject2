@@ -22,7 +22,7 @@ public:
     ~TCPClient();
 
 signals:
-    void ClientSignal(QString);
+    void ButtonSignal(QString);
     void clientName(QString);
 
 private slots:

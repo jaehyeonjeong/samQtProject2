@@ -54,6 +54,13 @@
           </spacer>
          </item>
          <item>
+          <widget class="QLineEdit" name="reduceEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="reduceclient">
            <property name="text">
             <string>reduceClient</string>
